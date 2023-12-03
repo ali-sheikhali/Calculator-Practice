@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function FormCal() {
   const [showValue, setShowValue] = useState("0");
@@ -6,19 +6,25 @@ function FormCal() {
   const handleClick = (e) => {
     e.preventDefault();
     const input = e.target.value;
+
     if (input === "C") {
       setShowValue("0");
     } else if (showValue === "0") {
-        setShowValue(e.target.value)
+      setShowValue(input);
+    } else if (input === "=") {
+      const result = eval(showValue);
+      setShowValue(result.toString());
+    } else if (input === "DE") {
+      setShowValue(showValue.slice(0, -1));
     } else {
-      setShowValue((prev) => `${prev}${e.target.value}`);
+      setShowValue((prev) => `${prev}${input}`);
     }
   };
 
   return (
     <div>
-      <div className="p-3 border-b-2 font-bold text-center">
-        <h3>Calculator</h3>
+      <div className="p-3 border-b-2 font-bold text-2xl text-center">
+        <h3 className="hover:text-red-700">Calculator</h3>
       </div>
       <div className="text-left font-bold text-3xl border-b-2 p-5">
         {showValue}
@@ -31,13 +37,13 @@ function FormCal() {
           className="bg-red-500 text-center rounded-md py-2 mt-4 ml-4"
           value={"C"}
         >
-          c
+          C
         </button>
         <button
           className="bg-orange-400 text-center rounded-md py-2"
-          value={"+-"}
+          value={"DE"}
         >
-          +-
+          DE
         </button>
         <button
           className="bg-orange-400 text-center rounded-md py-2"
@@ -47,7 +53,7 @@ function FormCal() {
         </button>
         <button
           className="bg-orange-400 text-center rounded-md py-2"
-          value={"7"}
+          value={"%"}
         >
           %
         </button>
